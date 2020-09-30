@@ -62,7 +62,7 @@ class SignUp extends Component {
         });
         if(flag===0) {
             const currentUser = JSON.parse(sessionStorage.getItem('user'));
-            if(currentUser!==null && currentUser.isAdmin==true) {
+            if(currentUser!==null && currentUser.isAdmin===true) {
                 if(await AuthService.addAdmin(user))
                 this.props.history.push('/admin');
             }

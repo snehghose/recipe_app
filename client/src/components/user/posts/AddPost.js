@@ -3,7 +3,7 @@ import CategoryService from '../../services/CategoryService';
 import RecipeService from '../../services/RecipeService';
 
 class AddPost extends Component {
-    constructor(props) {
+    constructor() {
         super()
         this.state={ 
             categories:[], 

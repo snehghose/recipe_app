@@ -50,10 +50,10 @@ class Header extends Component{
                                 </li>}
                             {user!=null && user.isAdmin &&
                                 <li className="nav-item dropdown text-light">
-                                    <a className="nav-link dropdown-toggle text-light" role="button" id="dropdownMenuLink"
+                                    <Link className="nav-link dropdown-toggle text-light" role="button" id="dropdownMenuLink"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         My Tasks
-                                    </a>
+                                    </Link>
                                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                         <Link className="dropdown-item" to="/admin">Manage Recipes</Link>
                                         <Link className="dropdown-item" to="/categories">Manage Categories</Link>
@@ -62,10 +62,10 @@ class Header extends Component{
                                 </li>}
                             {user!=null &&
                                 <li className="nav-item dropdown text-light">
-                                    <a className="nav-link dropdown-toggle text-light" role="button" id="dropdownMenuLink"
+                                    <Link className="nav-link dropdown-toggle text-light" role="button" id="dropdownMenuLink"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         My Profile
-                                    </a>
+                                    </Link>
                                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                         <Link className="dropdown-item" to="/profile">Change Password</Link>
                                         <div className="dropdown-divider"/>

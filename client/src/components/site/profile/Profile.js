@@ -46,7 +46,7 @@ class Profile extends Component {
             flag++;
         })
         if(flag===0) {
-            const response=await UserService.updatePassword(this.state.password.newPassword);
+            await UserService.updatePassword(this.state.password.newPassword);
             if(JSON.parse(sessionStorage.getItem('user')).isAdmin)
             window.location.replace('/admin');
             else
