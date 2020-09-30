@@ -1,0 +1,49 @@
+ol {
+    list-style: none;
+    counter-reset: li
+}
+   
+ol li::before {
+    content: counter(li);
+    font-size: larger;
+    font-style: italic;
+    font-weight: bolder;
+    color: tomato;
+    display: inline-block;
+    width: 2em;
+    margin-left: -1em
+}
+   
+ol li {
+    counter-increment: li
+}
+
+.style-text {
+    font-size: 30px;
+    font-weight: bolder;
+    color: tomato;
+}
+
+.size {
+    height: 30px;
+}
+
+.pic-size {
+    height: auto;
+    width: 100%;
+    display: block;
+}
+
+.card-img-top.img-size {
+    width: 100%;
+    height: 30vw;
+    object-fit: cover;
+}
+
+.height {
+    height: 50px;
+}
+
+strong {
+    color: tomato;
+}

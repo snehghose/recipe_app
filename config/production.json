@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "privateKey",
+    "mongoURI": "mongodb+srv://user:pass1234@cluster0.cscbo.mongodb.net/nodetodosample?retryWrites=true&w=majority"
+}
