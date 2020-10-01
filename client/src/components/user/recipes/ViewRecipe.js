@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import CategoryService from '../../services/CategoryService';
 import RecipeService from '../../services/RecipeService';
 import '../User.css';
 
@@ -13,22 +15,40 @@ class ViewRecipe extends Component {
             time: '',
             servings: '',
             image: '',
+            recommendation: '',
             ingredients: [],
             steps: [],
             isApproved: ''
-        }};
+        },
+        goto : {
+            pathname:'/recipes/category/'
+        },
+        path: ''
+        };
         this.handleApproval = this.handleApproval.bind(this);
+        this.handleRecommendation = this.handleRecommendation.bind(this)
     }
     
     async componentDidMount(){
         var path=window.location.pathname
         path=path.substring(path.lastIndexOf('/')+1);
-        this.setState({recipe:await RecipeService.getRecipeByName(path)})
+        const recipe = await RecipeService.getRecipeByName(path);
+        var goto = this.state.goto;
+        goto.pathname+=(await CategoryService.getById(recipe.categoryId)).name;
+        if(await RecipeService.checkName(recipe.recommendation))
+        {
+            this.setState({path: `/recipe/${recipe.recommendation}`});
+        } 
+        this.setState({recipe: recipe, goto: goto})
     }
 
     async handleApproval(){
         await RecipeService.recipeApproval(this.state.recipe._id);
         window.location.replace('/admin');
+    }
+
+    async handleRecommendation() {
+        window.location.replace(this.state.path)
     }
 
     render() {
@@ -91,6 +111,21 @@ class ViewRecipe extends Component {
                         </ol>
                     </div>
                 </div>
+                {recipe.recommendation.length>2 && <>
+                <hr/>
+                <div className="row justify-content-center">
+                    <span className="text-success blockquote">Pair this recipe with</span>
+                    {this.state.path.length>0 &&
+                        <span className="mx-1 text-info blockquote" style={{cursor: "pointer"}} onClick={this.handleRecommendation}><strong>{recipe.recommendation}</strong></span>}
+                    {this.state.path.length===0 && <span className="mx-1 text-success blockquote"><strong>{recipe.recommendation}</strong></span>}
+                </div>
+                </>}
+                <hr/>
+                {(user===null || (user!==null && !user.isAdmin)) && <div className="row justify-content-center">
+                        <Link className="style-text" to={this.state.goto}>
+                            Liked it? Click here to view more recipes from this category!!!
+                        </Link>
+                    </div>}
                 {user!==null && user.isAdmin && !recipe.isApproved && <div className="row my-5 justify-content-center">
                     <button className="btn btn-success" onClick={this.handleApproval}><h5>Approve Recipe</h5></button>
                 </div>}

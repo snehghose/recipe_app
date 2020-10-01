@@ -13,6 +13,11 @@ router.get('/:name', async (req, res) => {
     res.send(category._id);
 })
 
+router.get('/id/:id', async (req, res) => {
+    const category = await Category.findById(req.params.id);
+    res.send(category);
+})
+
 router.post('/', [auth, admin], async (req, res) => {
     let category = await Category.findOne({name: req.body.name});
     if(category) return res.status(400).send('Category already exists.');

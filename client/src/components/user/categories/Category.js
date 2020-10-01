@@ -12,7 +12,7 @@ function Category(props){
                 <div className="embed-responsive embed-responsive-4by3">
                     <img className="embed-responsive-item rounded-circle" src={category.image} alt={category.name}/>
                 </div>
-                <div className="height p-2 text-center blockquote">
+                <div className="height p-2 text-center blockquote" style={{color:'tomato'}}>
                     <strong>
                         {category.name}
                     </strong>

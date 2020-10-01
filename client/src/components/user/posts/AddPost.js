@@ -6,13 +6,15 @@ class AddPost extends Component {
     constructor() {
         super()
         this.state={ 
-            categories:[], 
+            categories:[],
+            recipes:[],
             recipe:{
                 name: '',
                 category: '',
                 description: '',
                 time: '',
                 servings: '',
+                recommendation: 'x',
                 image: '',
                 ingredients:'',
                 steps:''
@@ -26,14 +28,15 @@ class AddPost extends Component {
                 image: '',
                 ingredients: '',
                 steps: ''
-            }
+            },
+            other: false
         }
         this.handleChange=this.handleChange.bind(this)
         this.handleAdd=this.handleAdd.bind(this)
     }
     
     async componentDidMount() {
-        this.setState({ categories: await CategoryService.getAllCategories() });
+        this.setState({ categories: await CategoryService.getAllCategories(), recipes: await RecipeService.getAllRecipes() });
     }
     
     async handleChange(event) {
@@ -45,7 +48,7 @@ class AddPost extends Component {
         switch(name) {
             case 'name':
                 errors.name=value.length>3?'':'Name should have atleast 4 characters';
-                errors.name=value.length>=4 && await RecipeService.checkName(value)?'Recipe name already exists':errors.name;
+                errors.name=errors.name==='' && await RecipeService.checkName(value)?'Recipe name already exists':errors.name;
                 break;
             case 'image':
                 errors.image=value.length>0?'':'Image URL is required';
@@ -77,7 +80,7 @@ class AddPost extends Component {
         var recipe=this.state.recipe
         var errors=this.state.errors
         let flag=0;
-        Object.keys(recipe).forEach(key=>{
+        Object.keys(errors).forEach(key=>{
             errors[key]=recipe[key].length>0?'':key.charAt(0).toUpperCase()+key.slice(1)+' is required';
         })
         Object.values(errors).forEach(value => {
@@ -91,12 +94,13 @@ class AddPost extends Component {
                 description: this.state.recipe.description,
                 time: this.state.recipe.time,
                 servings: this.state.recipe.servings,
+                recommendation: this.state.recipe.recommendation,
                 image: this.state.recipe.image,
                 ingredients: this.state.recipe.ingredients.split('#'),
                 steps: this.state.recipe.steps.split('#'),
                 isApproved:false
             };
-            console.log(newRecipe)
+            console.log(newRecipe.recommendation)
             await RecipeService.addRecipe(newRecipe);
             window.location.reload()
         }
@@ -155,6 +159,21 @@ class AddPost extends Component {
                                         <label>Image URL</label>
                                         <input className="form-control" type="text" name="image" placeholder="Enter Image URL" onChange={this.handleChange}/>
                                         {this.state.errors.image.length>0 && <small className='text-danger'>{this.state.errors.image}</small>}
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12 col-md-6 my-2">
+                                        <label>Choose a dish to go along with your recipe</label>
+                                        <select className="form-control" name="recommendation" id="recommendation" onChange={this.handleChange}>
+                                            <option className="font-italic" defaultValue="x" selected={true}>Other</option>
+                                            {this.state.recipes.map((recipe)=>(
+                                                <option key={recipe._id} value={recipe.name}>{recipe.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-12 col-md-6 my-2">
+                                        <label>Others, Please Specify</label>
+                                        <input className="form-control" type="text" name="recommendation" placeholder="Specify your recommendation" onChange={this.handleChange}/>
                                     </div>
                                 </div>
                                 <div className="row">

@@ -15,7 +15,7 @@ function Recipe(props) {
                 </div>
                 <div className="card-body">
                     <div className="row">
-                        <div className="col-12 text-center text-overflow blockquote">
+                        <div className="col-12 text-center text-overflow blockquote" style={{color:'tomato'}}>
                             <strong>{recipe.name}</strong>
                         </div>
                     </div>

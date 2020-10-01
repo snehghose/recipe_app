@@ -3,6 +3,7 @@ const Category = require('../models/category');
 const router = require('express').Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const { findById } = require('../models/recipe');
 
 router.get('/', async (req, res) => {
     const recipes = await Recipe.find({ isApproved: true });
@@ -47,16 +48,17 @@ router.post('/', auth, async (req, res) => {
         time: req.body.time,
         servings: req.body.servings,
         image: req.body.image,
+        recommendation: req.body.recommendation,
         ingredients: req.body.ingredients,
         steps: req.body.steps,
         isApproved: false
     });
-    
+
     await recipe.save(function(err) {
         if(err) throw err;
-
-        res.send(recipe);
     });
+
+    res.send(recipe);
 });
 
 router.put('/:id', [auth, admin], async (req, res) => {
@@ -73,6 +75,7 @@ router.put('/:id', [auth, admin], async (req, res) => {
         time: recipe.time,
         servings: recipe.servings,
         image: recipe.image,
+        recommendation: recipe.recommendation,
         ingredients: recipe.ingredients,
         steps: recipe.steps,
         isApproved: !recipe.isApproved

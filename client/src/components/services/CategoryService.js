@@ -24,6 +24,16 @@ class CategoryService {
         }
     }
 
+    async getById(categoryId) {
+        const response=await fetch(URI+`id/${categoryId}`);
+        if(response.status===200)
+        return await response.json();
+        else {
+            alert("Please refresh.");
+            window.location.reload();
+        }
+    }
+
     async updateCategory(category) {
         const response=await fetch(URI, {
             method:'PUT',
